@@ -11,15 +11,15 @@ class Config(ConfigTextCNN):
     def __init__(self):
         super(Config, self).__init__()
 
-    batch_size = 8
+    batch_size = 16
     epochs = 20
 
     max_sent_num = 1
-    max_sent_len = 60
+    max_sent_len = 100
     max_char_len = 10
 
-    train_file = '../data/english/TREC.train.txt'
-    dev_file = '../data/english/TREC.test.txt'
+    train_file = '../data/news/TREC.train.txt'
+    dev_file = '../data/news/TREC.test.txt'
 
 
 clf.model(Config(), training=True)

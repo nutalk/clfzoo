@@ -4,9 +4,9 @@ import sys
 sys.path.append('../..')
 
 
-import clfzoo
 import clfzoo.textcnn as clf
 from clfzoo.config import ConfigTextCNN
+from clfzoo.data_prepare import process_text,data_enhance
 
 class Config(ConfigTextCNN):
     def __init__(self):
@@ -22,8 +22,11 @@ class Config(ConfigTextCNN):
     dev_file = '../data/news/TREC.test.txt'
 
 clf.model(Config())
-
-datas = input('text:\n')
-
-preds = clf.predict(datas)
-print(preds)
+while True:
+    datas = str(input('text:\n'))
+    words=process_text(datas)
+    enhanced_data=data_enhance(words)
+    for words in enhanced_data:
+        datas=' '.join(words)
+        preds = clf.predict([datas])
+        print(preds)

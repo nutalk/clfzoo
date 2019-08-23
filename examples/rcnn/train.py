@@ -16,8 +16,8 @@ class Config(ConfigRCNN):
     batch_size = 8
     max_sent_num = 1
     max_sent_len = 60
-    train_file = '../data/english/TREC.train.txt'
-    dev_file = '../data/english/TREC.test.txt'
+    train_file = '../data/news/TREC.train.txt'
+    dev_file = '../data/news/TREC.test.txt'
 
 
 clf.model(Config(), training=True)

@@ -1,6 +1,8 @@
+import random
 import re
-import jieba
 from os.path import abspath, dirname, join
+
+import jieba
 
 
 def get_stop_words():
@@ -16,9 +18,12 @@ def text_clean(text):
     date_pattern = re.compile(r'\d{0,4}年{0,1}\d{1,2}月\d{0,2}日{0,1}')
     num_pattern = re.compile(r'\d+')
     eng_pattern = re.compile(r'[a-zA-Z]+')
+    text = re.sub(r'DATE', '1月1日', text)
+    text = re.sub(r'POSMONEY', '100', text)
+    text = re.sub(eng_pattern, 'ENG', text)
     text = re.sub(date_pattern, 'DATE', text)
     text = re.sub(num_pattern, 'NUM', text)
-    text = re.sub(eng_pattern, 'ENG', text)
+
     return text
 
 
@@ -33,3 +38,28 @@ def process_text(text):
     words = jieba.cut(text)
     useful_words = [word for word in words if word not in stop_words]
     return useful_words
+
+
+def data_enhance(words, times=3):
+    """
+    对词进行随机采样，实现单词乱序、丢弃部分单词。
+    :param words: list
+    :param times: 采样次数
+    :return: list of list
+    """
+    assert isinstance(words, list), 'expect a list but get:\n {}'.format(words)
+    output = []
+    for i in range(times):
+        try:
+            sample = random.sample(words, min(100, len(words)))
+        except Exception as err:
+            print(words)
+            print(err)
+            return words
+        output.append(sample)
+    return output
+
+
+if __name__ == '__main__':
+    text = text_clean('DATE HKDE, 好的。POSMONEY, 100元')
+    print(text)
